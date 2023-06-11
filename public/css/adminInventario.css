@@ -1,0 +1,39 @@
+body {
+    background-color: #FEE9F1;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    color: #FF70A6;
+    font-size: 28px;
+}
+
+.inventory-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    padding: 10px;
+}
+
+thead {
+    background-color: #FFC2DE;
+    color: #FF70A6;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #FFECF4;
+}
+
+tbody tr:hover {
+    background-color: #FFD3E6;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}

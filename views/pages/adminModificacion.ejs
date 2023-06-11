@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Administración - Modificación</title>
+    <link rel="stylesheet" type="text/css" href="css/adminModificacion.css">
+</head>
+<body>
+    <h1>Administración - Modificación</h1>
+
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Sale Price</th>
+                <th>Quantity</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form action="/modificarProducto" method="post">
+                <% for (var i = 0; i < product.length; i++) { %>
+                    <tr>
+                        <td><%= product[i].id %></td>
+                        <td><%= product[i].name %></td>
+                        <td><%= product[i].description %></td>
+                        <td>
+                            <input type="text" id="price" name="price" value="<%= product[i].price %>" required>
+                        </td>
+                        <td>
+                            <input type="text" id="salePrice" name="salePrice" value="<%= product[i].sale_price %>" required>
+                        </td>
+                        <td>
+                            <input type="text" id="quantity" name="quantity" value="<%= product[i].quantity %>" required>
+                        </td>
+                        <td><%= product[i].image %></td>
+                        <input type="hidden" name="productName" value="<%= product[i].name %>">
+                    </tr>
+                <% } %>
+                
+                <input type="submit" value="Actualizar Producto">
+            </form>
+        </tbody>
+    </table>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>

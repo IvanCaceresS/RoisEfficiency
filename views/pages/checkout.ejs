@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulario de compra</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    form {
+      width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    div {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Formulario de compra</h2>
+
+  <form action="/place_order" method="post">
+
+    <label for="fname">Nombre</label><br>
+    <input type="text" id="fname" name="name" value="<%=user_name%> <%=user_lastname%>" required readonly><br>
+
+
+    <label for="email">Correo electrónico</label><br>
+    <input type="email" id="email" name="email" value="<%=user_email%>" required readonly><br>
+
+    <label for="phone">Teléfono</label><br>
+    <input type="tel" id="phone" name="phone" required><br>
+
+    <label for="city">Ciudad</label><br>
+    <input type="text" id="city" name="city" required><br>
+
+    <label for="address">Dirección</label><br>
+    <input type="text" id="address" name="address" value="<%=user_address%>" required readonly><br>
+
+    <div>
+        <p>Monto total: $ <%= total %></p>
+    </div>
+
+    <input type="submit" value="Realizar compra">
+    
+  </form>
+
+</body>
+</html>

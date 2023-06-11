@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Óptica Rois</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+    <%- include("header") %>
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Óptica Rois</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Ingresar frase!</p>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                   
+                    <% result.forEach(function(item) { %>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="images/<%= item.image %>" alt="images" width="200" height="200"/>
+
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder"> <%= item.name %> </h5>
+                                    <!-- Product price-->
+                                    <% if(item.sale_price){ %>
+                                        <h3 style="text-decoration:line-through">$<class=""><%= item.price %></strong></h3>
+
+                                        <h3 >$<class=""><%= item.sale_price %></strong></h3>
+                                        
+                                    <% }else{ %>
+                                        <h3 >$<strong class=""><%= item.price %></strong></h3>
+                                    <% } %>
+                                    
+                                    <div style="position: relative; bottom:auto">
+                                    <form action="/add_to_cart" method="post">
+                                        <input type="hidden" name="id" value="<%= item.id %>">
+                                        <input type="hidden" name="name" value="<%= item.name %>">
+                                        <input type="hidden" name="price" value="<%= item.price %>">
+                                        <input type="hidden" name="sale_price" value="<%= item.sale_price %>">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <input type="hidden" name="image" value="<%= item.image %>">
+                                        
+                                        <input type="submit" value="Añadir al carrito" class="btn btn-outline-dark mt-auto">
+                                          
+                                          
+                                    </form>
+
+                                    <!-- Product actions-->
+                                    <form action="/view_product" method="post">
+                                        <input type="hidden" name="id" value="<%= item.id %>">
+                                   
+                                        <input type="submit" value="Ver detalle" class="btn btn-outline-dark mt-auto">
+                                    
+                                    </form> 
+                                </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <% }) %>
+
+                </div>
+            </div>
+        </section>
+        <%- include("footer") %>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

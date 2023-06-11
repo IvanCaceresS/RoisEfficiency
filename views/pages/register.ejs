@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!-- Designined by CodingLab - youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="css/register.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">Registro</div>
+      <div class="content">
+        <form action="/register" method="post" enctype="multipart/form-data">
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Primer Nombre</span>
+              <input type="text" name="primer_nombre" placeholder="Juan" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Segundo nombre</span>
+              <input type="text" name="segundo_nombre" placeholder="Esteban" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Primer Apellido</span>
+              <input type="text" name="primer_apellido" placeholder="Pérez" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Segundo Apellido</span>
+              <input type="text" name="segundo_apellido" placeholder="Pérez" required>
+            </div>
+            <div class="input-box">
+              <span class="details">RUT</span>
+              <input type="text" name="rut" placeholder="12345678-9" required pattern="^[0-9]{7,8}-[0-9kK]{1}$">
+            </div>
+            <div class="input-box">
+              <span class="details">Dirección</span>
+              <input type="text" name="direccion" placeholder="Avenida Siempreviva 742" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Email</span>
+              <input type="email" name="email" placeholder="ejemplo@ejemplo.com" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Receta Oftalmologica</span>
+              <input type="file" name="file" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Contraseña</span>
+              <input id="password" name="password" type="password" placeholder="Contraseña" required>
+              <span class="toggle-password" onclick="togglePasswordVisibility()">Mostrar</span>
+            </div>
+          </div>
+          <button type="button" onclick="resetFields()">Limpiar</button>
+          <% if (errorMsg) { %>
+            <div class="error-msg"><%= errorMsg %></div>
+          <% } %>
+          <div class="button">
+            <input type="submit" value="Registrarse">
+          </div>
+          
+        </form>
+      </div>
+    </div>
+    <script>
+      function resetFields() {
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    if (input.type !== 'submit') {
+      input.value = '';
+    }
+  });
+}
+
+      
+
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const toggleButton = document.querySelector('.toggle-password');
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          toggleButton.textContent = 'Ocultar';
+        } else {
+          passwordInput.type = 'password';
+          toggleButton.textContent = 'Mostrar';
+        }
+      }
+    </script>
+  </body>
+</html>

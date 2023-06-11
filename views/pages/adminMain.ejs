@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bienvenido</title>
+    <link rel="stylesheet" href="css/adminMain.css">
+</head>
+<body>
+    <h1>Bienvenid@, <%= admin_name %></h1>
+    <div class="button-container">
+        <button onclick="location.href='/adminInventario'">Inventario</button>
+        <button onclick="location.href='/adminEscaneo'">Escanear</button>
+        <button onclick="location.href='/'">Boton3</button>
+        <button onclick="location.href='/'">Boton4</button>
+    </div>
+
+    <% if (typeof msg !== 'undefined') { %>
+        <p><%= msg %></p>
+    <% } %>
+</body>
+</html>

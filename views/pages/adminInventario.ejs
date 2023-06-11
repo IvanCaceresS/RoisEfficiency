@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Inventario</title>
+    <link rel="stylesheet" href="css/adminInventario.css">
+</head>
+<body>
+    <h1>Admin Inventario</h1>
+    <table class="inventory-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Precio Oferta</th>
+                <th>Cantidad</th>
+                <th>QR Code</th> <!-- Añadido la cabecera del código QR -->
+            </tr>
+        </thead>
+        <tbody>
+            <% for(var i = 0; i < result.length; i++) { %>
+                <tr>
+                    <td><%= result[i].id %></td>
+                    <td><%= result[i].name %></td>
+                    <td><%= result[i].description %></td>
+                    <td><%= result[i].price %></td>
+                    <td><%= result[i].sale_price %></td>
+                    <td><%= result[i].quantity %></td>
+                    <td>
+                        <!-- Generamos el código QR -->
+                        <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<%= encodeURIComponent(result[i].name) %>&choe=UTF-8" alt="QR Code" />
+                    </td>
+                    <!-- <td><img src="<%= result[i].image %>" alt="Product Image" width="100"></td>  -->
+                    <!-- <td><%= result[i].image %></td> -->
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>
