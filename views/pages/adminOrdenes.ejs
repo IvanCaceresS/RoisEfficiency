@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="css/adminMain.css">
+      <link rel="stylesheet" href="css/adminInventario.css">
+      <title>Inicio Administración</title>
+      <link rel="icon" href="images/LOGO-1.png"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  </head>
+  <style>
+    .status-pagado {
+    color: green;
+    }
+
+    .status-nopagado {
+        color: red;
+    }
+    .status-reembolsado {
+        color: rgb(0, 26, 255);
+    }
+
+  </style>
+    <body id="body"> 
+
+      <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+      </header>
+
+      <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+          <i class="fas fa-glasses" title="Inicio"></i>
+          <h4>OPTICAS ROIS</h4>
+        </div>
+
+        <div class="options__menu">
+          <a href="/adminMain"> 
+            <div class="option">
+              <i class="fas fa-home" title="Inicio"></i>
+              <h4>Inicio</h4>
+            </div>
+          </a>
+
+          <a href="/adminInventario"> 
+            <div class="option">
+              <i class="fas fa-box-open" title="Inventario"></i>
+              <h4>Inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminEscaneo"> 
+            <div class="option">
+              <i class="fas fa-edit" title="Modificar inventario"></i>
+              <h4 >Modificar inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminProducto"> 
+            <div class="option">
+              <i class="fas fa-plus-circle" title="Agregar producto"></i>
+              <h4>Agregar producto</h4>
+            </div>
+          </a>
+          
+          <a href="/adminOrdenes" class="selected"> 
+            <div class="option">
+              <i class="fas fa-truck" title="Pedidos"></i>
+              <h4>Pedidos</h4>
+            </div>
+          </a>
+
+          <a href="/adminCerrarSesion"> 
+            <div class="option">
+              <i class="fas fa-sign-out-alt" title="Cerrar Sesión"></i>
+              <h4>Cerrar Sesión</h4>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <main>
+        <h1 style="font-size: 70px; text-align: center;">Órdenes</h1>
+        <input style="width: 80%; height: 2vw; text-align: start; font-size: larger; margin-left: 10%;" type="text" id="search" placeholder="Buscar por ID">
+  
+        <table class="inventory-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Costo</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Fecha</th>
+                <th>ID de Productos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(var i = 0; i < result.length; i++) { %>
+              <tr>
+                <td style="text-align: center;"><%= result[i].id %></td>
+                <td style="text-align: center;">$<%= result[i].cost.toLocaleString() %></td>
+                <td style="text-align: center;"><%= result[i].name %></td>
+                <td style="text-align: center;"><%= result[i].email %></td>
+                <td class="status-cell" id="status-<%= result[i].id %>" style="text-align: center; cursor: pointer;"><%= result[i].status %></td>
+                <td style="text-align: center;"><%= result[i].address %></td>
+                <td style="text-align: center;"><%= result[i].phone %></td>
+                <td style="text-align: center;"><%= result[i].date %></td>
+                <td style="text-align: center;"><%= result[i].product_ids %></td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+      </main>
+
+      <script src="js/admin.js"></script>
+      <script>
+        window.onload = function() {
+        // Recorrer todas las celdas de estado
+        document.querySelectorAll(".status-cell").forEach(cell => {
+            // Si el estado es "PAGADO", agregar la clase "status-pagado"
+            if (cell.innerText == "PAGADO Y ENVIADO") {
+                cell.classList.add("status-pagado");
+            }
+            // Si el estado es "NO PAGADO", agregar la clase "status-nopagado"
+            else if (cell.innerText == "NO PAGADO") {
+                cell.classList.add("status-nopagado");
+            }
+            else if (cell.innerText == "REEMBOLSO POR FALTA DE STOCK") {
+                cell.classList.add("status-reembolsado");
+            }
+        });
+        };
+      </script>
+      <script>
+        // Cuando se haga clic en una celda de estado...
+        document.querySelectorAll(".status-cell").forEach(cell => {
+            cell.addEventListener("click", function(event) {
+                // Solo proceder si el estado es "NO PAGADO"
+                if (this.innerText == "NO PAGADO") {
+                    // Obtén el ID de la orden a partir del atributo ID del elemento.
+                    var id = this.id.split("-")[1];
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/actStatusOrder", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                alert("Estado de la orden actualizado con éxito");
+                                // Cambia el estado visualmente a "PAGADO"
+                                cell.innerText = "PAGADO Y ENVIADO";
+                                cell.classList.remove("status-nopagado");
+                                cell.classList.add("status-pagado");
+                            } else {
+                                alert("Hubo un error al actualizar el estado de la orden");
+                            }
+                        }
+                    };
+                    xhr.send("id=" + id);
+                }
+            });
+        });
+      </script>
+      
+      <script>
+        // Obtiene el elemento input
+        var input = document.getElementById('search');
+        
+        // Función para ejecutar la búsqueda
+        input.onkeyup = function() {
+            var filter = input.value.toUpperCase();
+            var rows = document.querySelector(".inventory-table tbody").rows;
+            
+            for (var i = 0; i < rows.length; i++) {
+                var id = rows[i].cells[0].textContent;
+                if (id.indexOf(filter) > -1) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+        </script>
+        <script>
+          setInterval(function() {
+              location.reload();
+          }, 10000);
+      </script>
+    </body>
+</html>
+
+
+

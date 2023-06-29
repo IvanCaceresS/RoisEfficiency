@@ -1,79 +1,154 @@
 <!DOCTYPE html>
-<!-- Designined by CodingLab - youtube.com/codinglabyt -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <title>Registro</title>
-    <link rel="stylesheet" href="css/register.css">
+    <title>Registrar nueva cuenta</title>
+    <link rel="icon" href="images/LOGO-1.png"/>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link href="css/register.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <div class="container">
-      <div class="title">Registro</div>
-      <div class="content">
-        <form action="/register" method="post" enctype="multipart/form-data">
-          <div class="user-details">
-            <div class="input-box">
-              <span class="details">Primer Nombre</span>
-              <input type="text" name="primer_nombre" placeholder="Juan" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Segundo nombre</span>
-              <input type="text" name="segundo_nombre" placeholder="Esteban" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Primer Apellido</span>
-              <input type="text" name="primer_apellido" placeholder="Pérez" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Segundo Apellido</span>
-              <input type="text" name="segundo_apellido" placeholder="Pérez" required>
-            </div>
-            <div class="input-box">
-              <span class="details">RUT</span>
-              <input type="text" name="rut" placeholder="12345678-9" required pattern="^[0-9]{7,8}-[0-9kK]{1}$">
-            </div>
-            <div class="input-box">
-              <span class="details">Dirección</span>
-              <input type="text" name="direccion" placeholder="Avenida Siempreviva 742" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Email</span>
-              <input type="email" name="email" placeholder="ejemplo@ejemplo.com" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Receta Oftalmologica</span>
-              <input type="file" name="file" required>
-            </div>
-            <div class="input-box">
-              <span class="details">Contraseña</span>
-              <input id="password" name="password" type="password" placeholder="Contraseña" required>
-              <span class="toggle-password" onclick="togglePasswordVisibility()">Mostrar</span>
-            </div>
+    <!------------------------------------------------------------------------------------ -->
+    <!--header -->
+    <div class="container-fluid">
+      <div class="row barra-principal" style="background-color: #750d37; color: white; padding: 2px; z-index: 10;">
+          <div class="col text-center" style="max-width: 100%;">
+              Rois Chile <i class="fas fa-glasses"></i> | Envíos a todo Chile <i class="fas fa-shipping-fast"></i> | Entregas en la V región <i class="fas fa-truck"></i> 
           </div>
-          <button type="button" onclick="resetFields()">Limpiar</button>
+      </div>
+  </div> 
+
+  <nav class="navbar navbar-expand-lg navbar-light sticky-header" style="background-color: whitesmoke; height: 80px;">
+      <div class="container-fluid px-4 px-lg-5">
+      <a class="nav-link active" aria-current="page" href="/">
+          <h1 class="text-start">ÓPTICA <span class="burdeo">R</span><span class="gris">O</span><span class="burdeo">IS</span></h1>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <% if(typeof isLoggedIn === 'undefined' || !isLoggedIn) { %>
+          <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+              <button class="nav-link btn" onclick="location.href='/login'">
+                  <i class="fas fa-user"></i>
+              <span class="text" style="color: black;">Iniciar sesión</span>
+              </button>
+          </li>
+          <li class="nav-item">
+              <button class="nav-link btn" onclick="location.href='/register'">
+                  <i class="fas fa-user-plus"></i>
+              <span class="text" style="color: black;">Registrarse</span>
+              </button>
+          </li>
+          <li class="nav-item">
+              <button class="nav-link btn" onclick="location.href='#bottom'">
+                  <i class="fas fa-question-circle"></i> 
+              <span class="text" style="color: black;">Nosotros</span>
+              </button>
+          </li>
+          </ul>
+          <% } else { %>
+          <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+              <a class="nav-link greeting" style="color: #752B50; font-weight: bold;" href="/profile">Hola <%= user_name %>, edita tu perfil aquí! &#128075;</a>
+          </li>
+          <li class="nav-item">
+              <form class="d-flex" action="/logout" method="post">
+              <input type="submit" class="btn btn-outline-dark mt-auto" style="color: white;background-color: #333333;" value="Cerrar sesión" />
+              </form>
+          </li>
+          </ul>
+          <% } %>
+      </div>
+      </div>
+  </nav>
+<!--Fin header -->
+<!-------------------------------------------------------------------------------------------------------->
+
+  <!-------------------------------------------------------------------------------------------------------->
+  <!--Formulario de registro a continuación-->
+  <div class="body-profile1">
+    <form class="cuerpo" action="/register" method="post" enctype="multipart/form-data">
+
+      <header class="head-form">
+        <h2 style="font-family: 'Abel', sans-serif;">Formulario de registro</h2>
+        <p style="font-family: 'Abel', sans-serif;">Recuerda ingresar correctamente tu información</p>
+      </header>
+
+        <div class="container-input" style="width: 100%;" >
+
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fa fa-user"></i></span>
+              <input type="text" name="primer_nombre" placeholder="Primer nombre" required>
+            </div><br>
+    
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fa fa-user"></i></span>
+              <input type="text" name="segundo_nombre" placeholder="Segundo nombre" required>
+            </div><br>
+    
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fa fa-user"></i></span>
+              <input type="text" name="primer_apellido" placeholder="Primer apellido" required>
+            </div><br>
+    
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fa fa-user"></i></span>
+              <input type="text" name="segundo_apellido" placeholder="Segundo apellido" required>
+            </div><br>
+
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fas fa-id-card"></i></span>
+              <input type="text" name="rut" placeholder="Rut" required pattern="^[0-9]{7,8}-[0-9kK]{1}$">
+            </div><br>
+
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fas fa-map-marker-alt"></i></span>
+              <input type="text" name="direccion" placeholder="Dirección" required>
+            </div><br>
+
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fa fa-envelope"></i></span>
+              <input type="email" name="email" placeholder="Email" required>
+            </div><br>
+    
+            <div class="input-container" style="margin-bottom: -2%;">
+              <span><i class="fa fa-key"></i></span>
+              <input type="password" name="password" placeholder="Contraseña" required>
+            </div><br> 
+
+          <label style="color: white;">Receta:</label>
+            <div class="input-container" style="left: 7%;">
+              <input style="color: white;" id="file_input" type="file" name="file" required><br><br>
+            </div><br>
+
+          <div class="container-botones" style="margin-top: -10%; margin-bottom: -5%;">
+            <button class="btn login-boton" type="submit">Registrarse</button> 
+            <button class="btn login-boton" type="button" onclick="resetFields()">Limpiar campos</button>
+          </div>
           <% if (errorMsg) { %>
             <div class="error-msg"><%= errorMsg %></div>
           <% } %>
-          <div class="button">
-            <input type="submit" value="Registrarse">
-          </div>
-          
-        </form>
-      </div>
-    </div>
+        </div>
+    </form>
+  </div>
+
+    <%- include("footer") %>
+
+    <script src="js/script.js"></script>
+
     <script>
       function resetFields() {
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => {
-    if (input.type !== 'submit') {
-      input.value = '';
-    }
-  });
-}
-
-      
-
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+        if (input.type !== 'submit') {
+          input.value = '';
+        }
+        });
+      }
       function togglePasswordVisibility() {
         const passwordInput = document.getElementById('password');
         const toggleButton = document.querySelector('.toggle-password');

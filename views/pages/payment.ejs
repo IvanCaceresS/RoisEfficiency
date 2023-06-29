@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Confirmación de orden</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+        .btn {
+            background-color: #ff6347;
+            color: white;
+            padding: 0.75em 1.5em;
+            border-radius: 0.3em;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #ff4500;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .link {
+            color: #ff6347;
+            text-decoration: none;
+            margin-top: 1em;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>El total de su compra es de: $<%= total.toLocaleString("es-CL") %></h1>
+    <!-- Formulario para enviar email -->
+    <form id="paymentForm" method="POST" action="/send-email" style="width: 100px; height: 30px; margin-left: -10%;">
+        <input type="hidden" id="ordenCompra" name="ordenCompra" value="<%= ordenCompra %>">
+        <button type="submit" class="btn" style="background-color: green;">Realizar Pago</button>
+    </form>
+    <!-- Formulario para cancelar orden -->
+    <form id="cancelOrderForm" method="POST" action="/cancelarOrden" style="margin-top: -1.6%; margin-left: 10%; width: 100px; height: 30px;">
+        <input type="hidden" id="ordenCompraCancel" name="ordenCompra" value="<%= ordenCompra %>">
+        <button type="submit" class="btn" style="background-color: red;">Cancelar Orden</button>
+    </form>
+
+    <script>
+        document.getElementById("paymentForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita que se recargue la página
+    
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/send-email", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+            // Obtén el valor de ordenCompra del formulario
+            var ordenCompra = document.getElementById("ordenCompra").value;
+    
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // Maneja la respuesta exitosa del servidor
+                        alert("Correo enviado exitosamente");
+                        // Redirige al usuario a la página de inicio después de realizar la compra
+                        window.location.href = "/";
+                    } else {
+                        // Maneja el error del servidor
+                        alert("Hubo un error enviando el correo. Verifique su email");
+                    }
+                }
+            };
+            
+            // Envía la solicitud al servidor, incluyendo el valor de ordenCompra
+            xhr.send("ordenCompra=" + ordenCompra);
+        });
+        // Script para cancelar orden
+        document.getElementById("cancelOrderForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/cancelarOrden", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        var ordenCompra = document.getElementById("ordenCompraCancel").value;
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert("Orden de compra cancelada con éxito");
+                    // Redirige al usuario a la página de inicio de sesión después de cancelar la orden
+                    window.location.href = "/login";
+                } else {
+                    alert("Hubo un error al cancelar la orden. Por favor, inténtalo de nuevo");
+                }
+            }
+        };
+        
+        xhr.send("ordenCompra=" + ordenCompra);
+        });
+    </script>
+    
+</body>
+</html>

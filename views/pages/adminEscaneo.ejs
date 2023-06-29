@@ -1,64 +1,218 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-        #container {
-            display: flex;
-        }
-        #video {
-            width: 20%;
-        }
-        #output {
-            width: 200px;
-            height: 40px;
-            margin-left: 0px;
-        }
-    </style>
-</head>
-<body>
-    <div id="container">
-        <video id="video" width="200" height="200"></video>
-        <textarea id="output" rows="10" cols="30"></textarea>
-    </div>
-    <button id="modifyButton" disabled>Modificar producto</button>
-    <script src="https://cdn.rawgit.com/cozmo/jsQR/master/dist/jsQR.js"></script>
-    <script>
-        const video = document.querySelector("#video");
-        const canvas = document.createElement("canvas");
-        const output = document.querySelector("#output");
-        const modifyButton = document.querySelector("#modifyButton");
+  <head>
+      <link rel="stylesheet" href="css/adminMain.css">
+      <title>Inicio Administración</title>
+      <link rel="icon" href="images/LOGO-1.png"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(stream => {
-            video.srcObject = stream;
-            video.setAttribute("playsinline", true);
-            video.play();
-            requestAnimationFrame(tick);
-        });
+  </head>
 
-        function tick() {
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                canvas.height = video.videoHeight;
-                canvas.width = video.videoWidth;
-                const ctx = canvas.getContext("2d");
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                    inversionAttempts: "dontInvert",
-                });
-                if (code) {
-                    output.value = code.data;
-                    modifyButton.disabled = false; // Habilitar el botón si hay un valor en el campo de salida
-                } else {
-                    modifyButton.disabled = true; // Deshabilitar el botón si no hay un valor en el campo de salida
-                }
-            }
-            requestAnimationFrame(tick);
-        }
+  <style>
+    .cardscan {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 0px;
+        width: 400px;
+        margin: 0 auto;
+        margin-top: 0%;
+    }
 
-        modifyButton.addEventListener("click", () => {
-            const textValue = output.value;
-            window.location.href = `/adminModificacion?text=${encodeURIComponent(textValue)}`;
-        });
-    </script>
-</body>
+    #video {
+        width: 400px;
+        height: 400px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        
+    }
+
+    #noVideoImage {
+    display: none;
+    width: 400px;
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    }
+
+    #output {
+    width: 80%;
+    margin-left: 10%;
+    padding: 10px;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    resize: none;
+    text-align: center;
+    font-size: larger;
+}
+
+    h1.escan {
+        font-size: 18px;
+        margin-top: -2%;
+        margin-bottom: 10px;
+        text-align: center;
+        color: red;
+    }
+
+    #modifyButton {
+        width: 60%;
+        margin-left: 20%;
+        padding: 10px;
+        background-color: gray;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-bottom: 5%;
+    }
+</style>
+
+    <body id="body"> 
+
+      <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+      </header>
+
+      <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+          <i class="fas fa-glasses" title="Inicio"></i>
+          <h4>OPTICAS ROIS</h4>
+        </div>
+
+        <div class="options__menu">
+          <a href="/adminMain"> 
+            <div class="option">
+              <i class="fas fa-home" title="Inicio"></i>
+              <h4>Inicio</h4>
+            </div>
+          </a>
+
+          <a href="/adminInventario"> 
+            <div class="option">
+              <i class="fas fa-box-open" title="Inventario"></i>
+              <h4>Inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminEscaneo" class="selected"> 
+            <div class="option">
+              <i class="fas fa-edit" title="Modificar inventario"></i>
+              <h4>Modificar inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminProducto"> 
+            <div class="option">
+              <i class="fas fa-plus-circle" title="Agregar producto"></i>
+              <h4>Agregar producto</h4>
+            </div>
+          </a>
+          
+          <a href="/adminOrdenes"> 
+            <div class="option">
+              <i class="fas fa-truck" title="Pedidos"></i>
+              <h4>Pedidos</h4>
+            </div>
+          </a>
+
+          <a href="/adminCerrarSesion"> 
+            <div class="option">
+              <i class="fas fa-sign-out-alt" title="Cerrar Sesión"></i>
+              <h4>Cerrar Sesión</h4>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <main>
+        <div class="cardscan">
+            <p style="font-size: 60px; text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Escaneo de QR</p>
+            <video id="video"></video>
+            <img id="noVideoImage" src="images/NoCamara.jpg" alt="No hay video disponible">
+            <textarea id="output" rows="1" cols="30" placeholder="Nombre del producto"></textarea>
+        
+            <% if (msgerror) { %>
+                <h1 class="escan" id="errorMessage"><%= msgerror %></h1>
+            <% } %>
+        
+            <button id="modifyButton" disabled>Modificar producto</button>
+        </div>
+      </main>
+
+      <script src="https://cdn.rawgit.com/cozmo/jsQR/master/dist/jsQR.js"></script>
+    
+      <script>
+          const video = document.querySelector("#video");
+          const canvas = document.createElement("canvas");
+          const output = document.querySelector("#output");
+          const modifyButton = document.querySelector("#modifyButton");
+          const noVideoImage = document.querySelector("#noVideoImage");
+      
+          navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(stream => {
+              video.srcObject = stream;
+              video.setAttribute("playsinline", true);
+              video.play();
+              requestAnimationFrame(tick);
+          }).catch(() => {
+              video.style.display = "none";
+              noVideoImage.style.display = "block";
+          });
+      
+          function tick() {
+              if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                  canvas.height = video.videoHeight;
+                  canvas.width = video.videoWidth;
+                  const ctx = canvas.getContext("2d");
+                  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                  const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                      inversionAttempts: "dontInvert",
+                  });
+                  modifyButton.disabled = false;
+                  if (code) {
+                      output.value = code.data;
+                  }
+              }
+              requestAnimationFrame(tick);
+          }
+          modifyButton.addEventListener("click", () => {
+              const textValue = output.value;
+              window.location.href = `/adminModificacion?text=${encodeURIComponent(textValue)}`;
+          });
+  
+          const errorMessage = document.getElementById("errorMessage");
+  
+      // Verifica si el mensaje de error está presente
+      if (errorMessage) {
+          // Establece un temporizador para ocultar el mensaje después de 5 segundos
+          setTimeout(function() {
+              errorMessage.style.display = "none";
+          }, 2000);
+      }
+      </script>
+  
+      <script>
+        output.addEventListener('keydown', (event) => {
+  // Si la tecla presionada es 'Enter'
+  if (event.keyCode === 13) {
+    // Previene la acción por defecto de la tecla Enter (un salto de línea en este caso)
+    event.preventDefault();
+    // Realiza la misma acción que el botón de modificar
+    const textValue = output.value;
+    window.location.href = `/adminModificacion?text=${encodeURIComponent(textValue)}`;
+  }
+});
+
+      </script>
+      <script src="js/admin.js"></script>
+      
+    </body>
 </html>

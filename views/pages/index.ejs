@@ -5,88 +5,345 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Óptica Rois</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
+        <title>ÓPTICAS ROIS</title>
+        <link rel="icon" href="images/LOGO-1.png"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/footer.css" rel="stylesheet" />
+        <link href="css/barra_busqueda.css" rel="stylesheet" />
+        <link href="css/portadaindex.css" rel="stylesheet" />
+        <link href="css/cards.css" rel="stylesheet" />
     </head>
     <body>
     <%- include("header") %>
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Óptica Rois</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Ingresar frase!</p>
-                </div>
-            </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                   
-                    <% result.forEach(function(item) { %>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="images/<%= item.image %>" alt="images" width="200" height="200"/>
 
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder"> <%= item.name %> </h5>
-                                    <!-- Product price-->
-                                    <% if(item.sale_price){ %>
-                                        <h3 style="text-decoration:line-through">$<class=""><%= item.price %></strong></h3>
+    <div id="ctn-bars-search">
+      <input type="text" id="inputSearch" placeholder="¿Qué estás buscando?"> </input>
+    </div>
+    <ul id="box-search">
+      <% result.forEach(function(item) { if(item.quantity>0){%>
 
-                                        <h3 >$<class=""><%= item.sale_price %></strong></h3>
-                                        
-                                    <% }else{ %>
-                                        <h3 >$<strong class=""><%= item.price %></strong></h3>
-                                    <% } %>
-                                    
-                                    <div style="position: relative; bottom:auto">
-                                    <form action="/add_to_cart" method="post">
-                                        <input type="hidden" name="id" value="<%= item.id %>">
-                                        <input type="hidden" name="name" value="<%= item.name %>">
-                                        <input type="hidden" name="price" value="<%= item.price %>">
-                                        <input type="hidden" name="sale_price" value="<%= item.sale_price %>">
-                                        <input type="hidden" name="quantity" value="1">
-                                        <input type="hidden" name="image" value="<%= item.image %>">
-                                        
-                                        <input type="submit" value="Añadir al carrito" class="btn btn-outline-dark mt-auto">
-                                          
-                                          
-                                    </form>
+        <li><a href="/ver_producto?id=<%= item.id %>" data-product-id="<%= item.id %>"><i class="fas fa-search"></i>
+          <%= item.name %></a>
+        </li>
+      <% }}) %>
+    </ul>  
+    
 
-                                    <!-- Product actions-->
-                                    <form action="/view_product" method="post">
-                                        <input type="hidden" name="id" value="<%= item.id %>">
-                                   
-                                        <input type="submit" value="Ver detalle" class="btn btn-outline-dark mt-auto">
-                                    
-                                    </form> 
-                                </div>
-                                </div>
-                                
-                            </div>
-                            
+<div id="cover-ctn-search"></div>
+
+        <header class="body"> 
+          <div class="Carousel">
+            <h2>Lentes en escena</h2>
+            <div class="slick-list" id="slick-list">
+                <button class="slick-arrow slick-prev" id="button-prev" data-button="button-prev" onclick="app.processingButton(event)">
+                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path></svg>
+                </button>
+                <div class="slick-track" id="track">
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen1.jpg" alt="Image">
+                                </picture>
+                            </a>
                         </div>
                     </div>
-                    <% }) %>
-
+                    <div class="slick">
+                      <div>
+                          <a >
+                              <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                              <picture>
+                                  <img src="images/imagen4.jpg" alt="Image">
+                              </picture>
+                          </a>
+                      </div>
+                  </div>
+                  <div class="slick">
+                    <div>
+                        <a >
+                            <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                            <picture>
+                                <img src="images/imagen17.jpg" alt="Image">
+                            </picture>
+                        </a>
+                    </div>
+                  </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen2.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen3.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                      <div>
+                          <a >
+                              <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                              <picture>
+                                  <img src="images/imagen16.jpg" alt="Image">
+                              </picture>
+                          </a>
+                      </div>
+                  </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen9.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen5.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen6.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen19.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                    <div>
+                        <a >
+                            <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                            <picture>
+                                <img src="images/imagen7.jpg" alt="Image">
+                            </picture>
+                        </a>
+                    </div>
                 </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen8.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen10.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen11.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen21.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen22.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen14.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                        <div>
+                            <a >
+                                <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                                <picture>
+                                    <img src="images/imagen15.jpg" alt="Image">
+                                </picture>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick">
+                    <div>
+                        <a >
+                            <h4><small>Inspira tu Estilo</small>Óptica Rois</h4>
+                            <picture>
+                                <img src="images/imagen18.jpg" alt="Image">
+                            </picture>
+                        </a>
+                    </div>
+                </div>
+                </div>
+                <button class="slick-arrow slick-next" id="button-next" data-button="button-next" onclick="app.processingButton(event)">
+                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path></svg>
+                </button>
             </div>
-        </section>
+          </div>
+          </header>
+        <!-- Catálogo con los productos-->
+              <div class="header1">
+                <h1 style="padding: 30px;">Catálogo de lentes</h1>
+              </div>
+                <div class="products" style="margin-bottom: 5%;">
+                    <% result.forEach(function(item) {
+                      if(item.quantity>0){ %>
+                      <div class=" product product-name" data-product-id="<%= item.id %>">
+                        <!-- Product image-->
+                        <div>
+                          <img src="images/<%= item.image %>" alt="images" style="max-height: 400px; max-width: 310px; border-radius: 10%; justify-content: center;">
+                        </div>
+                        <!-- Product details-->
+                        <div class="namePrice flex-column align-items-center">
+                          <!-- Product name-->
+                          <h3 class="product-name" data-product-id="<%= item.id %>"><%= item.name %></h3>
+                          <!-- Product price-->
+                          <% if(item.sale_price){ %>
+                            <span style="text-decoration: line-through; font-size: small; margin-top: -6%; ">$<strong><%=item.price.toLocaleString() %></strong></span>
+                            <span style="margin-top: -2%;"><strong>$<%=item.sale_price.toLocaleString() %></strong></span>
+
+                          <% } else { %>
+                            <span>$<strong><%= item.price.toLocaleString() %></strong></span>
+                          <% } %>
+                          <div style="margin-top: auto; display: flex; flex-direction: column; align-items: center;">
+                              <div>
+                                <form action="/add_to_cart" method="post">
+                                  <input type="hidden" name="id" value="<%= item.id %>">
+                                  <input type="hidden" id="name" name="name" value="<%= item.name %>">
+                                  <input type="hidden" name="price" value="<%= item.price %>">
+                                  <input type="hidden" name="sale_price" value="<%= item.sale_price %>">
+                                  <input type="hidden" name="quantity" value="1">
+                                  <input type="hidden" name="image" value="<%= item.image %>">
+                                  <div class="bay">
+                                    <button type="submit">Añadir al carrito</button>
+                                </div>
+                              </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    <% }}) %>
+                </div>
+
         <%- include("footer") %>
+
+        <script>
+          // Obtener todos los elementos con la clase "product-name"
+          var productNames = document.getElementsByClassName("product-name");
+        
+          // Agregar un controlador de eventos de clic a cada elemento
+          for (var i = 0; i < productNames.length; i++) {
+            productNames[i].addEventListener("click", function() {
+              // Obtener el ID del producto desde el atributo "data-product-id"
+              var productId = this.getAttribute("data-product-id");
+        
+              // Redirigir al usuario al detalle del producto
+              window.location.href = "/ver_producto?id=" + productId;
+            });
+          }
+        </script>    
+
+
+
+        <script>
+          // Obtener todos los elementos de enlace de la lista
+          const links = document.querySelectorAll('#box-search a');
+        
+          // Función que se ejecutará cuando se haga clic en un enlace
+          const handleClick = (event) => {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+        
+            const productId = event.currentTarget.getAttribute('data-product-id'); // Obtener el ID del producto
+        
+            // Crear un formulario oculto
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/view_product';
+        
+            // Crear un campo de entrada oculto para enviar el ID del producto
+            const productIdInput = document.createElement('input');
+            productIdInput.type = 'hidden';
+            productIdInput.name = 'id';
+            productIdInput.value = productId;
+        
+            // Agregar el campo de entrada al formulario
+            form.appendChild(productIdInput);
+        
+            // Agregar el formulario al documento y enviarlo
+            document.body.appendChild(form);
+            form.submit();
+          };
+        
+          // Agregar el evento de clic a cada enlace de la lista
+          links.forEach(link => {
+            link.addEventListener('click', handleClick);
+          });
+        </script>
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+        <script src="js/portadaindex.js"></script>
     </body>
 </html>
+
+
+
+

@@ -1,20 +1,94 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Bienvenido</title>
-    <link rel="stylesheet" href="css/adminMain.css">
-</head>
-<body>
-    <h1>Bienvenid@, <%= admin_name %></h1>
-    <div class="button-container">
-        <button onclick="location.href='/adminInventario'">Inventario</button>
-        <button onclick="location.href='/adminEscaneo'">Escanear</button>
-        <button onclick="location.href='/'">Boton3</button>
-        <button onclick="location.href='/'">Boton4</button>
-    </div>
+  <head>
+      <link rel="stylesheet" href="css/adminMain.css">
+      <title>Inicio Administración</title>
+      <link rel="icon" href="images/LOGO-1.png"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
-    <% if (typeof msg !== 'undefined') { %>
-        <p><%= msg %></p>
-    <% } %>
-</body>
+  </head>
+    <body id="body"> 
+
+      <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+      </header>
+
+      <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+          <i class="fas fa-glasses" title="Inicio"></i>
+          <h4>OPTICAS ROIS</h4>
+        </div>
+
+        <div class="options__menu">
+          <a href="/adminMain" class="selected"> 
+            <div class="option">
+              <i class="fas fa-home" title="Inicio"></i>
+              <h4>Inicio</h4>
+            </div>
+          </a>
+
+          <a href="/adminInventario"> 
+            <div class="option">
+              <i class="fas fa-box-open" title="Inventario"></i>
+              <h4>Inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminEscaneo"> 
+            <div class="option">
+              <i class="fas fa-edit" title="Modificar inventario"></i>
+              <h4>Modificar inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminProducto"> 
+            <div class="option">
+              <i class="fas fa-plus-circle" title="Agregar producto"></i>
+              <h4>Agregar producto</h4>
+            </div>
+          </a>
+          
+          <a href="/adminOrdenes"> 
+            <div class="option">
+              <i class="fas fa-truck" title="Pedidos"></i>
+              <h4>Pedidos</h4>
+            </div>
+          </a>
+
+          <a href="/adminCerrarSesion"> 
+            <div class="option">
+              <i class="fas fa-sign-out-alt" title="Cerrar Sesión"></i>
+              <h4>Cerrar Sesión</h4>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <main>
+        <h1 style="text-align: center;font-size: 100px;">Bienvenid@, <%= admin_name %></h1><br> 
+        <%if(msg){
+            var productName = "";
+            if (msg && msg.endsWith("', el codigo QR asociado es:")) {
+              var startIndex = msg.indexOf("'");
+              var endIndex = msg.lastIndexOf("'");
+              productName = msg.slice(startIndex + 1, endIndex);
+            
+          %>
+          <p style="font-size: 40px;text-align: center; margin-top: 5%; font-family: monospace;"><%=msg%></p>
+          <img style="margin-left: 38%; width: 400px; height: 400px;" src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<%= encodeURIComponent(productName) %>&choe=UTF-8" alt="QR Code" />
+          <%}else{%>
+          <p style="font-size: 60px;text-align: center; margin-top: 10%; font-family: monospace;"><%=msg%></p>
+        <%}}%>
+      </main>
+
+      <script src="js/admin.js"></script>
+
+    </body>
 </html>
+
+
+

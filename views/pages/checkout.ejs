@@ -54,20 +54,17 @@
   <form action="/place_order" method="post">
 
     <label for="fname">Nombre</label><br>
-    <input type="text" id="fname" name="name" value="<%=user_name%> <%=user_lastname%>" required readonly><br>
+    <input type="text" id="fname" name="name" value="<%=user_name%> <%=second_user_name%> <%=user_lastname%> <%=user_second_lastname%>" required readonly><br>
 
 
     <label for="email">Correo electrónico</label><br>
     <input type="email" id="email" name="email" value="<%=user_email%>" required readonly><br>
 
     <label for="phone">Teléfono</label><br>
-    <input type="tel" id="phone" name="phone" required><br>
-
-    <label for="city">Ciudad</label><br>
-    <input type="text" id="city" name="city" required><br>
+    <input type="tel" id="phone" name="phone" required pattern="\+569[0-9]{8}" title="Ingresa un número de teléfono válido en formato +569XXXXXXXX">
 
     <label for="address">Dirección</label><br>
-    <input type="text" id="address" name="address" value="<%=user_address%>" required readonly><br>
+    <input type="text" id="address" name="address" value="<%= user_address.toUpperCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }) %>" required><br>
 
     <div>
         <p>Monto total: $ <%= total %></p>

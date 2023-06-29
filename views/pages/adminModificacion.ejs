@@ -1,51 +1,133 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Administración - Modificación</title>
-    <link rel="stylesheet" type="text/css" href="css/adminModificacion.css">
-</head>
-<body>
-    <h1>Administración - Modificación</h1>
+  <head>
+      <link rel="stylesheet" href="css/adminMain.css">
+      <title>Inicio Administración</title>
+      <link rel="icon" href="images/LOGO-1.png"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+      <link rel="stylesheet" type="text/css" href="css/adminModificacion.css">
+  </head>
+    <body id="body"> 
 
-    <table class="product-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Sale Price</th>
-                <th>Quantity</th>
-                <th>Image</th>
-            </tr>
-        </thead>
-        <tbody>
-            <form action="/modificarProducto" method="post">
-                <% for (var i = 0; i < product.length; i++) { %>
+      <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+      </header>
+
+      <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+          <i class="fas fa-glasses" title="Inicio"></i>
+          <h4>OPTICAS ROIS</h4>
+        </div>
+
+        <div class="options__menu">
+          <a href="/adminMain"> 
+            <div class="option">
+              <i class="fas fa-home" title="Inicio"></i>
+              <h4>Inicio</h4>
+            </div>
+          </a>
+
+          <a href="/adminInventario"> 
+            <div class="option">
+              <i class="fas fa-box-open" title="Inventario"></i>
+              <h4>Inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminEscaneo" class="selected"> 
+            <div class="option">
+              <i class="fas fa-edit" title="Modificar inventario"></i>
+              <h4>Modificar inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminProducto"> 
+            <div class="option">
+              <i class="fas fa-plus-circle" title="Agregar producto"></i>
+              <h4>Agregar producto</h4>
+            </div>
+          </a>
+          
+          <a href="/adminOrdenes"> 
+            <div class="option">
+              <i class="fas fa-truck" title="Pedidos"></i>
+              <h4>Pedidos</h4>
+            </div>
+          </a>
+
+          <a href="/adminCerrarSesion"> 
+            <div class="option">
+              <i class="fas fa-sign-out-alt" title="Cerrar Sesión"></i>
+              <h4>Cerrar Sesión</h4>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <main>
+        <h1 style="text-align: center;">Administración - Modificación</h1>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Sale Price</th>
+                    <th>Quantity</th>
+                    <th>Image</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+              <% for (var i = 0; i < product.length; i++) { %>
+                <form action="/modificarProducto" method="post">
                     <tr>
                         <td><%= product[i].id %></td>
                         <td><%= product[i].name %></td>
                         <td><%= product[i].description %></td>
                         <td>
-                            <input type="text" id="price" name="price" value="<%= product[i].price %>" required>
+                            <input type="number" id="price" name="price" value="<%= product[i].price %>" required>
                         </td>
                         <td>
-                            <input type="text" id="salePrice" name="salePrice" value="<%= product[i].sale_price %>" required>
+                            <input type="number" id="salePrice" name="salePrice" value="<%= product[i].sale_price %>"  max="<%= product[i].price %>">
                         </td>
                         <td>
-                            <input type="text" id="quantity" name="quantity" value="<%= product[i].quantity %>" required>
+                          <input type="number" id="quantity" name="quantity" value="<%= product[i].quantity %>" min="0" required>
+
                         </td>
                         <td><%= product[i].image %></td>
                         <input type="hidden" name="productName" value="<%= product[i].name %>">
+                        <td><input style="background-color: red; padding: 1%;" type="submit" value="Actualizar Producto"></td>
+                    
+                </form>
+                <form action="/eliminarProducto" method="post">
+                    
+                        <input type="hidden" name="productName" value="<%= product[i].name %>">
+                        <td><button style="background-color: red; padding: 1%;" type="button" onclick="confirmarEliminacion(this.form)">Eliminar Producto</button></td>
                     </tr>
-                <% } %>
-                
-                <input type="submit" value="Actualizar Producto">
-            </form>
-        </tbody>
-    </table>
+                </form>
+            <% } %>
+            
+            
+            </tbody>
+        </table>
+      </main>
 
-    <script src="/js/admin.js"></script>
-</body>
+      <script src="js/admin.js"></script>
+
+      <script>
+        function confirmarEliminacion(form) {
+            if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+                form.submit();
+            }
+        }
+    </script>
+      
+    </body>
 </html>

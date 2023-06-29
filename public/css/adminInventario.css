@@ -1,36 +1,29 @@
-body {
-    background-color: #FEE9F1;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 50px;
-}
-
-h1 {
-    color: #FF70A6;
-    font-size: 28px;
-}
 
 .inventory-table {
+    background-color: #f5f5f5;
     margin: 0 auto;
-    border-collapse: collapse;
     width: 80%;
+    border-collapse: collapse;
+    border: 1px solid black;
 }
 
-th, td {
+th{
     padding: 10px;
+    border: 1px solid black;
+    padding: 8px;
 }
 
 thead {
-    background-color: #FFC2DE;
-    color: #FF70A6;
+    background-color: #750d37;
+    color: #fff;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #FFECF4;
+    background-color: #fff;
 }
 
 tbody tr:hover {
-    background-color: #FFD3E6;
+    background-color: #fff;
 }
 
 img {

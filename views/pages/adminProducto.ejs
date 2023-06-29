@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="css/adminMain.css">
+      <title>Añadir Nuevo Producto</title>
+      <link rel="stylesheet" type="text/css" href="css/adminModificacion.css">
+      <link rel="icon" href="images/LOGO-1.png"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  </head>
+    <body id="body"> 
+
+      <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+      </header>
+
+      <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+          <i class="fas fa-glasses" title="Inicio"></i>
+          <h4>OPTICAS ROIS</h4>
+        </div>
+
+        <div class="options__menu">
+          <a href="/adminMain"> 
+            <div class="option">
+              <i class="fas fa-home" title="Inicio"></i>
+              <h4>Inicio</h4>
+            </div>
+          </a>
+
+          <a href="/adminInventario"> 
+            <div class="option">
+              <i class="fas fa-box-open" title="Inventario"></i>
+              <h4>Inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminEscaneo"> 
+            <div class="option">
+              <i class="fas fa-edit" title="Modificar inventario"></i>
+              <h4>Modificar inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminProducto" class="selected"> 
+            <div class="option">
+              <i class="fas fa-plus-circle" title="Agregar producto"></i>
+              <h4>Agregar producto</h4>
+            </div>
+          </a>
+          
+          <a href="/adminOrdenes"> 
+            <div class="option">
+              <i class="fas fa-truck" title="Pedidos"></i>
+              <h4>Pedidos</h4>
+            </div>
+          </a>
+          
+          <a href="/adminCerrarSesion"> 
+            <div class="option">
+              <i class="fas fa-sign-out-alt" title="Cerrar Sesión"></i>
+              <h4>Cerrar Sesión</h4>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <main>
+        <h1 style="font-size: 70px; text-align: center;">Añadir Nuevo Producto</h1>
+
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Precio Oferta</th>
+                <th>Cantidad</th>
+                <th>Imagen</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <form action="/addProduct" method="post" enctype="multipart/form-data">
+                <tr>
+                    <td><input name="id" readonly value="<%= result[0]['max(id)']+1 %>"></td>
+                    <td><input type="text" id="productName" name="productName" placeholder="Nombre" required></td>
+                    <td><input type="text" id="description" name="description" placeholder="Texto " required></td>
+                    <td><input type="number" id="price" name="price" placeholder="$" required min="1"></td>
+                    <td><input type="number" id="salePrice" name="salePrice" placeholder="$" min="1"></td>
+                    <td><input type="number" id="quantity" name="quantity" placeholder="Cantidad" required min="0""></td>
+                    <td>
+                        <input type="file" id="imageInput" name="file" class="form-control" required>
+                    </td>
+                    <td>
+                      <input style="background-color: green;" type="submit" value="Añadir Producto">
+                    </td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+    <div style="margin-left: 65%;">
+        <img id="imagePreview" src="#" alt="Vista previa de imagen" style="max-width: 400px; max-height: 400px; display: none;">
+    </div>
+      </main>
+
+      <script>
+        // Capturar el evento de cambio de archivo
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', function() {
+                    imagePreview.src = reader.result;
+                    imagePreview.style.display = 'block';
+                });
+
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.src = '#';
+                imagePreview.style.display = 'none';
+            }
+        });
+    </script>
+
+      <script src="js/admin.js"></script>
+      
+    </body>
+</html>

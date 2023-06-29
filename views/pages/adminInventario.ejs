@@ -1,11 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Inventario</title>
+    <title>Inventario</title>
+    <link rel="icon" href="images/LOGO-1.png"/>
+    <link rel="stylesheet" href="css/adminMain.css">
     <link rel="stylesheet" href="css/adminInventario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
-<body>
-    <h1>Admin Inventario</h1>
+<body id="body">
+
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+            <i class="fas fa-glasses" title="Inicio"></i>
+
+        <h4>OPTICAS ROIS</h4>
+        </div>
+
+        <div class="options__menu">
+          <a href="/adminMain" > 
+            <div class="option">
+              <i class="fas fa-home" title="Inicio"></i>
+              <h4>Inicio</h4>
+            </div>
+          </a>
+
+          <a href="/adminInventario" class="selected"> 
+            <div class="option">
+              <i class="fas fa-box-open" title="Inventario"></i>
+              <h4>Inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminEscaneo"> 
+            <div class="option">
+              <i class="fas fa-edit" title="Modificar inventario"></i>
+              <h4>Modificar inventario</h4>
+            </div>
+          </a>
+
+          <a href="/adminProducto"> 
+            <div class="option">
+              <i class="fas fa-plus-circle" title="Agregar producto"></i>
+              <h4>Agregar producto</h4>
+            </div>
+          </a>
+          
+          <a href="/adminOrdenes"> 
+            <div class="option">
+              <i class="fas fa-truck" title="Pedidos"></i>
+              <h4>Pedidos</h4>
+            </div>
+          </a>
+
+          <a href="/adminCerrarSesion"> 
+            <div class="option">
+              <i class="fas fa-sign-out-alt" title="Cerrar Sesión"></i>
+              <h4>Cerrar Sesión</h4>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+
+    <main> 
+    <h1 style="font-size: 70px; text-align: center;">Inventario</h1>
+    
+    <input style="width: 80%; height: 2vw; text-align: start; font-size: larger; margin-left: 10%;" type="text" id="search" placeholder="Buscar por nombre">
+  
     <table class="inventory-table">
         <thead>
             <tr>
@@ -15,27 +84,50 @@
                 <th>Precio</th>
                 <th>Precio Oferta</th>
                 <th>Cantidad</th>
-                <th>QR Code</th> <!-- Añadido la cabecera del código QR -->
+                <th>QR Code</th>
             </tr>
         </thead>
         <tbody>
             <% for(var i = 0; i < result.length; i++) { %>
                 <tr>
-                    <td><%= result[i].id %></td>
-                    <td><%= result[i].name %></td>
-                    <td><%= result[i].description %></td>
-                    <td><%= result[i].price %></td>
-                    <td><%= result[i].sale_price %></td>
-                    <td><%= result[i].quantity %></td>
-                    <td>
-                        <!-- Generamos el código QR -->
+                    <td style="text-align: center;"><%= result[i].id %></td>
+                    <td style="text-align: center;"><%= result[i].name %></td>
+                    <td style="text-align: center;"><%= result[i].description %></td>
+                    <td style="text-align: center;">$<%= result[i].price.toLocaleString() %></td>
+                    <%if(result[i].sale_price == null){%>
+                    <td style="text-align: center;">N/A</td>
+                    <%}else{%>
+                    <td style="text-align: center;">$<%= result[i].sale_price.toLocaleString() %></td>
+                    <%}%>
+                    <td style="text-align: center;"><%= result[i].quantity %></td>
+                    <td style="text-align: center;">
                         <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<%= encodeURIComponent(result[i].name) %>&choe=UTF-8" alt="QR Code" />
                     </td>
-                    <!-- <td><img src="<%= result[i].image %>" alt="Product Image" width="100"></td>  -->
-                    <!-- <td><%= result[i].image %></td> -->
                 </tr>
             <% } %>
         </tbody>
     </table>
+</main>  
+<script src="js/admin.js"></script>
+<script>
+  // Obtiene el elemento input
+  var input = document.getElementById('search');
+  
+  // Función para ejecutar la búsqueda
+  input.onkeyup = function() {
+      var filter = input.value.toUpperCase();
+      var rows = document.querySelector(".inventory-table tbody").rows;
+      
+      for (var i = 0; i < rows.length; i++) {
+          var name = rows[i].cells[1].textContent;
+          if (name.toUpperCase().indexOf(filter) > -1) {
+              rows[i].style.display = "";
+          } else {
+              rows[i].style.display = "none";
+          }
+      }
+  }
+  </script>
+  
 </body>
 </html>

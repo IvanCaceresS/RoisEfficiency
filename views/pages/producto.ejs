@@ -5,118 +5,209 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Shop Item - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <title>Detalle producto</title>
+        <link rel="icon" href="images/LOGO-1.png"/>
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+
+        <!-- ===== Fontawesome CDN Link ===== -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+            
+        <link href="css/barra_busqueda.css" rel="stylesheet"/>
+        <link href="css/producto.css" rel="stylesheet" />
+        <link href="css/carrusel.css" rel="stylesheet" />
+
     </head>
     <body>
 
         <!-- Navigation-->
         <%- include("header") %>
-          
+
+        <div id="ctn-bars-search">
+            <input type="text" id="inputSearch" placeholder="¿Qué estás buscando?"> </input>
+        </div>
+        <ul id="box-search">
+        <% result.forEach(function(item) { if(item.quantity>0){%>
+    
+            <li><a href="/ver_producto?id=<%= item.id %>" data-product-id="<%= item.id %>"><i class="fas fa-search"></i>
+            <%= item.name %></a>
+            </li>
+        <% }}) %>
+        </ul>  
+        
+    
+    <div id="cover-ctn-search"></div>
+        
         <% result.forEach(function(item) { %>
             <% if(item.id == id_producto){ %>
-                
-        <!-- Product section-->
-        <section class="py-5" style="height: 80vh">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="images/<%= item.image %>" alt="..." /></div>
-                    <div class="col-md-6">
-                        <div class="small mb-1">SKU: <%= item.id %></div>
-                        <h1 class="display-5 fw-bolder"><%= item.name %></h1>
 
+        <!-- Product section-->
+                <div class="box row gx-4 gx-lg-5 align-items-center" style=" box-shadow: 0 5px 20px rgba(0, 0, 0, .3); background: #f7f6f9; border-radius: 10px; margin-top: 100px;">
+                    <div class="col-md-6" ><img style="border-radius: 10px; box-shadow: 0 5px 20px rgba(0, 0, 0, .3); width: 100%;" class="card-img-top mb-5 mb-md-0" src="images/<%= item.image %>" alt="..." /></div>
+                    <div class="col-md-6">
+                        <h2 class="display-5 fw-bolder" style="margin-left: 6%;"><%= item.name %></h2>
+                        <div style="margin-left: 6%;" class="small mb-1">SKU: <%= item.id %></div>
                         <div class="fs-5 mb-5">
                             <% if(item.sale_price){ %>
-                            <span class="text-decoration-line-through">$<%= item.price %></span>
                             <span>$<%= item.sale_price %></span>
+                            <span style="font-size: 10px; margin-right: 10000px; margin-top: 20px;" class="text-decoration-line-through">$<%= item.price.toLocaleString() %></span>
                             <% }else{ %>
-                                <span>$<%= item.price %></span>
+                                <span>$<%= item.price.toLocaleString() %></span>
                             <% } %>
                         </div>
-                        <p class="lead"><%= item.description %></p>
-                        <div class="d-flex">
+                        <p class="lead" style="color: black; margin-left: 6%; margin-top: -5%; margin-bottom: 10%;"><%= item.description %></p>
+                        <div class="d-flex" style="margin: 0; position: relative;">
                             <form action="/add_to_cart" method="post">
                                 <input type="hidden" name="id" value="<%= item.id %>">
-                                <input type="hidden" name="name" value="<%= item.name %>">
+                                <input id="name" type="hidden" name="name" value="<%= item.name %>">
                                 <input type="hidden" name="price" value="<%= item.price %>">
                                 <input type="hidden" name="sale_price" value="<%= item.sale_price %>">
                                 <input type="hidden" name="quantity" value="1">
                                 <input type="hidden" name="image" value="<%= item.image %>">
-                                <input type="submit" value="Añadir al carrito" class="btn btn-outline-dark mt-auto">
+                                <button type="submit">Añadir al carrito</button>
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+
         <% }%>
         <% }) %>
 
 
-        <!-- Related items section-->
-        
-        <section class="py-5 bg-light">
-            <div class="container px-4 px-lg-5 mt-5">
-                <h2 class="fw-bolder mb-4">Productos relacionados</h2>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <% result.forEach(function(item) { %>
-                        <% if(item.id != id_producto){ %> 
-                    <div class="col mb-5">
-                        
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" width="200" height="200" src="images/<%= item.image %>" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder"><%= item.name %></h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <% if(item.sale_price){ %>
-                                        <span class="text-decoration-line-through">$<%= item.price %></span>
-                                        <span>$<%= item.sale_price %></span>
-                                        <% }else{ %>
-                                            <span>$<%= item.price %></span>
-                                        <% } %>
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <form action="/add_to_cart" method="post">
-                                    <input type="hidden" name="id" value="<%= item.id %>">
-                                    <input type="hidden" name="name" value="<%= item.name %>">
-                                    <input type="hidden" name="price" value="<%= item.price %>">
-                                    <input type="hidden" name="sale_price" value="<%= item.sale_price %>">
-                                    <input type="hidden" name="quantity" value="1">
-                                    <input type="hidden" name="image" value="<%= item.image %>">
-                                    <input type="submit" value="Añadir al carrito" class="btn btn-outline-dark mt-auto">
-                                </form>
+<div class="no"><h1> Productos Relacionados</h1></div>
+<main class="main">
+    <section class="seccion" style=" position: relative; height: 450px; width: 1075px; display: flex; align-items: center;">
+    <div class="swiper mySwiper container">
+        <div class="swiper-wrapper content">
+            <% result.forEach(function(item) { %>
+                <%if(item.id!=id_producto){%>
+                    <div class="swiper-slide card product-name" data-product-id="<%= item.id %>">
+                        <div class="card-content">
+                        <div class="image">
+                        <img src="images/<%=item.image%>" alt=""> 
+                        </div>
+            
+                        <div class="name-profession">
+                            <span class="name"><%=item.name%></span>
+                            <span class="profession">$<%=item.price.toLocaleString() %></span>
+                        </div>
+            
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+            
+                        <div class="button">
+                            <form action="/add_to_cart" method="post">
+                                <input type="hidden" name="id" value="<%= item.id %>">
+                                <input id="name" type="hidden" name="name" value="<%= item.name %>">
+                                <input type="hidden" name="price" value="<%= item.price %>">
+                                <input type="hidden" name="sale_price" value="<%= item.sale_price %>">
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="image" value="<%= item.image %>">
+                                <button type="submit" style="background-color: black;">Añadir al carrito</button>
+                            </form>
                             </div>
                         </div>
-                    </div>   
-                    <% }%>
-                    <% }) %>
-                </div>
-            </div>
-        </section>
+                        </div>
+                        <%}})%>
+        </div>
+    </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div style="margin-top: 10%;" class="swiper-pagination"></div>
+    
+</section>
+</main>
+
+
+
+
+
+
 
         <!-- Footer-->
         <%- include("footer") %>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+            <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        slidesPerGroup: 3,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+        },
+        navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+        },
+    });
+    </script>
+        <script>
+            // Obtener todos los elementos con la clase "product-name"
+            
+            var productNames = document.getElementsByClassName("product-name");
+            // Agregar un controlador de eventos de clic a cada elemento
+            for (var i = 0; i < productNames.length; i++) {
+                productNames[i].addEventListener("click", function() {
+                // Obtener el ID del producto desde el atributo "data-product-id"
+                var productId = this.getAttribute("data-product-id");
+                
+    
+            // Redirigir al usuario al detalle del producto
+            window.location.href = "/ver_producto?id=" + productId;
+            });
+            }
+        </script> 
+
+        <script>
+            // Obtener todos los elementos de enlace de la lista
+            const links = document.querySelectorAll('#box-search a');
+        
+            // Función que se ejecutará cuando se haga clic en un enlace
+            const handleClick = (event) => {
+              event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+        
+              const productId = event.currentTarget.getAttribute('data-product-id'); // Obtener el ID del producto
+        
+              // Crear un formulario oculto
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/view_product';
+        
+              // Crear un campo de entrada oculto para enviar el ID del producto
+            const productIdInput = document.createElement('input');
+            productIdInput.type = 'hidden';
+            productIdInput.name = 'id';
+            productIdInput.value = productId;
+        
+              // Agregar el campo de entrada al formulario
+            form.appendChild(productIdInput);
+        
+              // Agregar el formulario al documento y enviarlo
+            document.body.appendChild(form);
+            form.submit();
+            };
+        
+            // Agregar el evento de clic a cada enlace de la lista
+            links.forEach(link => {
+            link.addEventListener('click', handleClick);
+            });
+        </script>
+
+        <script src="js/scripts.js"></script>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

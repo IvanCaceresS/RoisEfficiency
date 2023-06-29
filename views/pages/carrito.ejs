@@ -1,80 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Shop Homepage - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/carrito.css" rel="stylesheet" />
-    </head>
-    <body>
-        <div class="card">
-            <div class="row">
-                <div class="col-md-8 cart" style="height: 400%">
-                    <div class="title">
-                        <div class="row">
-                            <div class="col"><h4><b>Carrito de compra</b></h4></div>
-                        </div>
-                    </div>
-                    <% cart.forEach(function(item) { %>
-                        <div class="row main align-items-center" style="height: 100%">
-                            <div class="col-2 d-flex justify-content-center"><img class="img-fluid" src="images/<%= item.image %>"></div>
-                            <div class="col-4 d-flex justify-content-center">
-                                <div class="row text-muted"><%= item.name %></div>
-                            </div>
-                            <% if(item.sale_price){ %>
-                            <div class="col-1 d-flex justify-content-center">&dollar;<%= item.sale_price * item.quantity %></div>
-                            <%} else{%>
-                                <div class="col-1 d-flex justify-content-center">&dollar;<%= item.price * item.quantity %></div>
-                            <%}%>
-                            <form method="post" action="/edit_product_quantity" class="col-3">
-                                <div class="input-group align-items-center">
-                                    <input type="hidden" name="id" value="<%= item.id %>">
-                                    <input type="submit" name="decrease_quantity" class="form-control btn btn-secondary" value="-">
-                                    <input type="text" name="quantity" class="form-control align-self-center" value="<%= item.quantity %>" readonly style="margin-top:33%">
-                                    <input type="submit" name="increase_quantity" class="form-control btn btn-secondary" value="+">
-                                </div>
-                              </form>
-                            <div class="col-1 d-flex justify-content-center">
-                                <form method="post" action="/remove_product">
-                                    <input type="hidden" name="id" value="<%= item.id %>">
-                                    <input type="submit" name="remove-btn" class="btn" value="Quitar">
-                                </form>
-                            </div>
-                        </div>
-                    <% }) %>
-                    <div class="back-to-shop"><a href="/">&leftarrow;</a><span class="text-muted">Volver a la tienda</span></div>
-                </div>
-                <div class="col-md-4 summary">
-                    <div><h5><b>RESUMEN</b></h5></div>
-                    <hr>
-                    <div class="row">
-                        <div class="col text-right">&dollar; <%=total%></div>
-                    </div>
-                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                        <div class="col">PRECIO TOTAL</div>
-                        <div class="col text-right">&dollar; <%=total%></div>
-                    </div>
-                    <% if (typeof isLoggedIn === 'undefined' || !isLoggedIn) { %>
-                        <a class="btn-secondary" href="/login">Inicia sesión para comprar</a>
-                        <a class="btn-secondary" href="/register">Regístrate</a>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Carrito de comp</title>
 
-                    <% } else { %>
-                        <div>
-                            <form method="get" action="/checkout">
-                                <input type="submit" class="btn-secondary" value="Realizar compra" name="">
+    <!-- Favicon-->
+    <link rel="icon" href="images/LOGO-1.png"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/carrito.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="row">
+                        <div class="col">
+                            <h4><b>Carrito de compra</b></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <% cart.forEach(function(item) { %>
+                    <div class="row main align-items-center">
+                        <div class="col-2 d-flex justify-content-center">
+                            <img class="img-fluid" src="images/<%= item.image %>">
+                        </div>
+                        <div class="col-4 d-flex justify-content-center">
+                            <div class="row text-muted">
+                                <%= item.name %>
+                            </div>
+                        </div>
+
+                        <% if(item.sale_price && item.sale_price>0){ %>
+                            <div class="col-1 d-flex justify-content-center">
+                                &dollar;<%= item.sale_price * item.quantity %>
+                            </div>
+                        <% } else { %>
+                            <div class="col-1 d-flex justify-content-center">
+                                &dollar;<%= item.price * item.quantity %>
+                            </div>
+                        <% } %>
+
+                        <form method="post" action="/edit_product_quantity" class="col-3">
+                            <div class="input-group align-items-center">
+                                <input type="hidden" name="id" value="<%= item.id %>">
+                                <input type="submit" name="decrease_quantity" class="form-control btn btn-secondary" value="-">
+                                <input type="text" name="quantity" class="form-control align-self-center" value="<%= item.quantity %>" readonly style="margin-top:33%">
+                                <input type="submit" name="increase_quantity" class="form-control btn btn-secondary" value="+">
+                            </div>
+                        </form>
+
+                        <div class="col-1 d-flex justify-content-center">
+                            <form method="post" action="/remove_product">
+                                <input type="hidden" name="id" value="<%= item.id %>">
+                                <input type="submit" name="remove-btn" class="btn" value="Quitar">
                             </form>
                         </div>
-                    <% } %>
-                    
+                    </div>
+                <% }) %>
+
+                <div class="back-to-shop">
+                    <a href="/">&leftarrow;</a>
+                    <span class="text-muted">Volver a la tienda</span>
                 </div>
             </div>
+
+            <div class="col-md-4 summary">
+                <div>
+                    <h5><b>RESUMEN</b></h5>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">PRECIO TOTAL</div>
+                    <div class="col text-right">&dollar; <%=total%></div>
+                </div>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                </div>
+
+                <% if (typeof isLoggedIn === 'undefined' || !isLoggedIn) { %>
+                    <a style="border: 1px solid rgba(0, 0, 0, 0.137); padding: 1vh; background-color: rgb(247, 247, 247); width: 200px; position: absolute; margin-top: 1rem; color: black; text-align: center; margin-left: 1rem; text-decoration: none;" href="/login">Inicia sesión para comprar</a>
+                    <a style="border: 1px solid rgba(0, 0, 0, 0.137); padding: 1vh; background-color: rgb(247, 247, 247); width: 200px; position: absolute; margin-top: 4rem; color: black; text-align: center; margin-left: 1rem; text-decoration: none;" href="/register">Regístrate</a>
+
+                <% } else { %>
+                    <div>
+                        <form method="get" action="/checkout">
+                            <input type="submit" class="btn-secondary" value="Realizar compra" name="">
+                        </form>
+                    </div>
+                <% } %>
+            </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>
